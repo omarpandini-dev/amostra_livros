@@ -1,4 +1,4 @@
-import type { ContentItem, ContentKind } from '@/types';
+import type { ContentItem, ContentKind, PhysicalPriceResult, PublicPricing } from '@/types';
 
 async function request<T>(url: string): Promise<T> {
   const response = await fetch(url);
@@ -12,4 +12,6 @@ async function request<T>(url: string): Promise<T> {
 export const api = {
   list: (kind: ContentKind) => request<ContentItem[]>(`/api/${kind === 'book' ? 'books' : 'comics'}`),
   get: (kind: ContentKind, slug: string) => request<ContentItem>(`/api/content/${kind}/${encodeURIComponent(slug)}`),
+  pricing: () => request<PublicPricing>('/api/pricing'),
+  physicalPrice: (pages: number) => request<PhysicalPriceResult>(`/api/pricing/physical?pages=${encodeURIComponent(pages)}`),
 };

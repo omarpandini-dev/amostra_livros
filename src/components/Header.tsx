@@ -1,4 +1,4 @@
-import { BookOpen, Home, Menu, MessageCircle, X } from 'lucide-react';
+import { BookOpen, CircleDollarSign, Home, Menu, MessageCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Logo } from './Logo';
@@ -22,6 +22,7 @@ export function Header() {
           {links.map(({ to, label, icon: Icon, end }) => (
             <NavLink key={to} to={to} end={end} onClick={() => setOpen(false)}><Icon aria-hidden="true" />{label}</NavLink>
           ))}
+          <a className="nav-pricing" href="/#precos" onClick={() => setOpen(false)}><CircleDollarSign aria-hidden="true" />Preços</a>
         </nav>
       </div>
     </header>
