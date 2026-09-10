@@ -30,6 +30,28 @@ npm start
 
 Depois do build, o Express serve a aplicação completa em `http://localhost:3001`, incluindo as rotas amigáveis do leitor.
 
+## Docker
+
+Crie a imagem e execute o container:
+
+```bash
+docker build -t mundo-encantado .
+docker run --rm -p 3001:3001 mundo-encantado
+```
+
+A aplicação estará disponível em `http://localhost:3001`. O container inclui o frontend compilado, o servidor, as configurações comerciais e o acervo presente em `assets` no momento do build.
+
+O estado do container pode ser consultado em `GET /api/health`.
+
+### EasyPanel
+
+1. Crie um serviço do tipo **App** e conecte o repositório Git.
+2. Selecione **Dockerfile** como método de build e mantenha `Dockerfile` como caminho.
+3. Configure a porta do serviço como `3001`.
+4. Associe o domínio e faça o deploy.
+
+Não é necessário configurar um volume quando o acervo é versionado junto com o projeto. Se os livros forem enviados ou alterados diretamente em produção no futuro, configure armazenamento persistente para `/app/assets` e garanta que o volume seja inicialmente populado com o acervo.
+
 ## Como adicionar um livro
 
 Crie uma pasta em `assets/books/meu-livro/`:
@@ -91,9 +113,12 @@ O progresso de cada história é salvo no `localStorage` e aparece na seção **
 
 ## API
 
+- `GET /api/health`
 - `GET /api/books`
 - `GET /api/comics`
 - `GET /api/content/:type/:slug`
+- `GET /api/pricing`
+- `GET /api/pricing/physical?pages=16`
 
 Os valores de `type` e `slug` são validados, e o servidor impede acesso fora de `assets/books` e `assets/comics`.
 

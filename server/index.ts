@@ -12,6 +12,7 @@ const projectRoot = path.resolve(serverDir, '..', '..');
 const clientDist = path.join(projectRoot, 'dist');
 
 app.disable('x-powered-by');
+app.get('/api/health', (_request, response) => response.json({ status: 'ok' }));
 app.use('/api', contentRouter);
 app.use('/api', pricingRouter);
 app.use('/assets', express.static(assetsRoot, { fallthrough: false, maxAge: '1h' }));
