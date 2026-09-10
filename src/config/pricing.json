@@ -7,6 +7,8 @@
     "eyebrow": "Escolha sua experiência",
     "title": "Uma história especial do jeito que você preferir",
     "description": "Escolha como viver essa história: leitura digital interativa, experiência com narração ou livro físico para guardar para sempre.",
+    "experience_notice": "Para uma melhor experiência, recomendamos acessar em tablets ou computadores. No celular, ao abrir a história, use o aparelho sempre no modo paisagem (deitado).",
+    "digital_delivery_notice": "O livro digital será entregue por meio de um link, enviado por e-mail ou WhatsApp. Esse link dará acesso vitalício a uma experiência que simula a leitura de um livro.",
     "physical_price_disclaimer": "Os valores de livros físicos podem variar conforme a quantidade de páginas, características da impressão e condições de produção. O frete é calculado separadamente."
   },
 

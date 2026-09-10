@@ -75,7 +75,7 @@ export function Reader() {
 
   return <div ref={shellRef} className={`reader-shell ${fullscreen.isFullscreen ? 'is-fullscreen' : ''} ${controlsVisible ? 'controls-visible' : 'controls-hidden'}`} onPointerMove={showControls} onPointerDown={showControls}>
     <div className="reader-ambience" aria-hidden="true" />
-    <header className="reader-header"><button onClick={() => navigate('/')} aria-label="Voltar para a biblioteca">←</button><div><span>{content.type === 'book' ? 'Livro mágico' : 'História em quadrinhos'}</span><h1>{content.title}</h1></div></header>
+    <header className="reader-header"><button onClick={() => navigate('/')} aria-label="Voltar para a biblioteca">←</button><div><span>{content.type === 'book' ? 'Amostra de livro personalizado' : 'Amostra de quadrinho personalizado'}</span><h1>{content.title}</h1></div></header>
     {narration.needsInteraction && !narration.muted && <button className="enable-narration" onClick={narration.activate}><Volume2 />Ativar narração</button>}
     <PageFlipReader ref={readerRef} pages={content.pages} initialPage={pageIndex} onPageChange={(index) => { setPageIndex(index); setShowEndPanel(false); showControls(); }} onInteraction={() => { showControls(); if (narration.needsInteraction) void narration.activate(); }} />
     {pageIndex === content.pages.length - 1 && !showEndPanel && <button className="end-adventure-trigger" onClick={() => setShowEndPanel(true)}><Sparkles />Fim da aventura</button>}

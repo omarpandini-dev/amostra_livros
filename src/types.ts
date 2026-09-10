@@ -62,6 +62,8 @@ export interface PublicPricing {
     eyebrow: string;
     title: string;
     description: string;
+    experienceNotice: string;
+    digitalDeliveryNotice: string;
     physicalPriceDisclaimer: string;
     comparison: {
       enabled: boolean;

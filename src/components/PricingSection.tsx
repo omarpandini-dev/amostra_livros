@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Sparkles } from 'lucide-react';
+import { MonitorSmartphone, Sparkles } from 'lucide-react';
 import { pricingService } from '@/services/pricingService';
 import type { PublicPricing } from '@/types';
 import { PricingCard } from './PricingCard';
@@ -27,6 +27,13 @@ export function PricingSection() {
         <h2 id="pricing-title">{pricing.section.title}</h2>
         <p>{pricing.section.description}</p>
       </div>
+      <aside className="pricing-experience-notice">
+        <MonitorSmartphone aria-hidden="true" />
+        <div>
+          <p>{pricing.section.experienceNotice}</p>
+          <p>{pricing.section.digitalDeliveryNotice}</p>
+        </div>
+      </aside>
       <div className="pricing-grid">
         {pricing.products.map((product) => (
           <PricingCard product={product} currency={pricing.currency} locale={pricing.locale} key={product.id} />

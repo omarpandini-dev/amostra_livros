@@ -13,7 +13,7 @@ export function ContentCard({ item, progress }: Props) {
       <Link to={`/read/${item.type}/${encodeURIComponent(item.slug)}`} state={hasProgress ? { resumeAt: progress } : undefined} aria-label={`${hasProgress ? 'Continuar' : 'Ler'} ${item.title}`}>
         <div className="cover-wrap">
           <ImageWithFallback src={item.cover} alt={`Capa de ${item.title}`} />
-          <span className="card-type"><BookOpen />{item.type === 'book' ? 'Livro' : 'HQ'}</span>
+          <span className="card-type"><BookOpen />{item.type === 'book' ? 'Amostra · Livro' : 'Amostra · HQ'}</span>
           <span className="read-now">{hasProgress ? <RotateCcw /> : <Play fill="currentColor" />}{hasProgress ? `Continuar na página ${progress + 1}` : 'Ler agora'}</span>
         </div>
         <h3>{item.title}</h3>

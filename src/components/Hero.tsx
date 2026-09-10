@@ -7,7 +7,12 @@ export function Hero() {
       <div className="hero-copy">
         <p className="eyebrow"><Sparkles /> Biblioteca de grandes aventuras</p>
         <h1 id="hero-title">Mundo<br /><em>Encantado</em></h1>
-        <p>Toda história abre uma nova aventura.</p>
+        <p>
+          Crie uma história única e personalizada para seus filhos, sobrinhos,
+          amigos ou para alguém especial. Você escolhe o nome e a aparência dos
+          personagens e conta como deseja a aventura; nós transformamos seu pedido
+          em uma história feita especialmente para você.
+        </p>
         <a className="primary-action" href="#acervo">Começar a explorar <ArrowDown /></a>
       </div>
       <div className="hero-book" aria-hidden="true">

@@ -2,6 +2,8 @@ import { ArrowRight } from 'lucide-react';
 import type { PricingProduct } from '@/types';
 import { PricingFeatures } from './PricingFeatures';
 
+const WHATSAPP_NUMBER = '5547997934627';
+
 interface PricingCardProps {
   product: PricingProduct;
   currency: string;
@@ -13,9 +15,7 @@ export function PricingCard({ product, currency, locale }: PricingCardProps) {
     ? null
     : new Intl.NumberFormat(locale, { style: 'currency', currency }).format(product.price);
 
-  function selectProduct() {
-    window.dispatchEvent(new CustomEvent('pricing:select-product', { detail: { productId: product.id } }));
-  }
+  const whatsappUrl = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(product.cta.label)}`;
 
   return (
     <article className={`pricing-card${product.featured ? ' is-featured' : ''}`}>
@@ -32,9 +32,16 @@ export function PricingCard({ product, currency, locale }: PricingCardProps) {
       <PricingFeatures features={product.features} />
       {product.shipping && <p className="pricing-shipping">{product.shipping.shortMessage}</p>}
       {product.priceNotice && <p className="pricing-notice">{product.priceNotice}</p>}
-      <button className="pricing-cta" type="button" data-product-id={product.id} onClick={selectProduct}>
+      <a
+        className="pricing-cta"
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        data-product-id={product.id}
+        aria-label={`${product.cta.label} pelo WhatsApp`}
+      >
         {product.cta.label}<ArrowRight aria-hidden="true" />
-      </button>
+      </a>
     </article>
   );
 }

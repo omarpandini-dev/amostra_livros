@@ -39,6 +39,8 @@ interface PricingConfig {
     eyebrow: string;
     title: string;
     description: string;
+    experience_notice: string;
+    digital_delivery_notice: string;
     physical_price_disclaimer: string;
   };
   comparison: {
@@ -127,6 +129,8 @@ export function getPublicPricing() {
       eyebrow: pricingConfig.section.eyebrow,
       title: pricingConfig.section.title,
       description: pricingConfig.section.description,
+      experienceNotice: pricingConfig.section.experience_notice,
+      digitalDeliveryNotice: pricingConfig.section.digital_delivery_notice,
       physicalPriceDisclaimer: pricingConfig.section.physical_price_disclaimer,
       comparison: {
         enabled: pricingConfig.comparison.enabled,
