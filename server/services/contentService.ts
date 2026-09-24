@@ -72,12 +72,15 @@ export async function scanContent(kind: ContentKind, slug: string): Promise<Cont
   const pageFiles = imageFiles.filter((name) => getNumericPrefix(name) !== 0);
   const fileNames = entries.filter((entry) => entry.isFile()).map((entry) => entry.name);
   const metadata = await readMetadata(contentDir);
-  const pages: ContentPage[] = await Promise.all(pageFiles.map(async (imageName) => {
+  const storyPages: ContentPage[] = await Promise.all(pageFiles.map(async (imageName) => {
     const number = getNumericPrefix(imageName) ?? 0;
     const audioName = findMatchingAudioName(number, fileNames);
     const audioPath = audioName ? path.join(mediaDir, audioName) : null;
     return { number, image: publicAssetPath(path.join(mediaDir, imageName)), audio: audioPath ? publicAssetPath(audioPath) : null };
   }));
+  const pages: ContentPage[] = coverFile
+    ? [{ number: 0, image: publicAssetPath(path.join(mediaDir, coverFile)), audio: null }, ...storyPages]
+    : storyPages;
   return {
     id: slug,
     slug,

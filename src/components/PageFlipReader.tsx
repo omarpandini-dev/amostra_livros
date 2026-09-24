@@ -26,31 +26,35 @@ function getViewportSize(): ViewportSize {
 }
 
 function createPageElement(page: ContentPage, eager: boolean): HTMLDivElement {
+  const isCover = page.number === 0;
   const element = document.createElement('div');
-  element.className = 'reader-page';
-  element.dataset.density = 'soft';
+  element.className = `reader-page${isCover ? ' reader-cover' : ''}`;
+  element.dataset.density = isCover ? 'hard' : 'soft';
 
   const image = document.createElement('img');
   image.src = page.image;
-  image.alt = `Página ${page.number}`;
+  image.alt = isCover ? 'Capa da história' : `Página ${page.number}`;
   image.loading = eager ? 'eager' : 'lazy';
   image.decoding = 'async';
 
   const fallback = document.createElement('div');
   fallback.className = 'reader-page-fallback';
   fallback.setAttribute('role', 'img');
-  fallback.setAttribute('aria-label', `Imagem indisponível: página ${page.number}`);
-  fallback.textContent = 'Esta página se perdeu no caminho ✦';
+  fallback.setAttribute('aria-label', isCover ? 'Imagem indisponível: capa' : `Imagem indisponível: página ${page.number}`);
+  fallback.textContent = isCover ? 'A capa se perdeu no caminho ✦' : 'Esta página se perdeu no caminho ✦';
 
   image.addEventListener('error', () => {
     image.hidden = true;
     fallback.classList.add('visible');
   }, { once: true });
 
-  const number = document.createElement('span');
-  number.className = 'page-number';
-  number.textContent = String(page.number);
-  element.append(image, fallback, number);
+  element.append(image, fallback);
+  if (!isCover) {
+    const number = document.createElement('span');
+    number.className = 'page-number';
+    number.textContent = String(page.number);
+    element.append(number);
+  }
   return element;
 }
 
@@ -91,6 +95,7 @@ export const PageFlipReader = forwardRef<ReaderHandle, Props>(({ pages, initialP
     const isSinglePage = viewport.width < 820 || viewport.width / viewport.height < 1.15;
     const pageWidth = Math.max(280, Math.floor(isSinglePage ? viewport.width : viewport.width / 2));
     const startPage = Math.min(activePageRef.current, Math.max(0, pages.length - 1));
+    const hasCover = pages[0]?.number === 0;
     const elements = pages.map((page, index) => createPageElement(page, Math.abs(index - startPage) <= 1));
 
     const pageFlip = new PageFlip(host, {
@@ -108,7 +113,7 @@ export const PageFlipReader = forwardRef<ReaderHandle, Props>(({ pages, initialP
       startZIndex: 0,
       autoSize: false,
       maxShadowOpacity: 0.45,
-      showCover: false,
+      showCover: hasCover,
       mobileScrollSupport: true,
       clickEventForward: true,
       useMouseEvents: true,

@@ -1,4 +1,4 @@
-import { BookOpen, CircleDollarSign, Home, Menu, MessageCircle, X } from 'lucide-react';
+import { BookOpen, CircleDollarSign, Home, Info, Menu, MessageCircle, X } from 'lucide-react';
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { Logo } from './Logo';
@@ -7,6 +7,7 @@ const links = [
   { to: '/', label: 'Início', icon: Home, end: true },
   { to: '/books', label: 'Livros', icon: BookOpen, end: false },
   { to: '/comics', label: 'Quadrinhos', icon: MessageCircle, end: false },
+  { to: '/about', label: 'Sobre', icon: Info, end: false },
 ];
 
 export function Header() {

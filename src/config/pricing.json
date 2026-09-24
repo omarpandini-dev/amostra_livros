@@ -20,7 +20,7 @@
       "short_name": "Digital",
       "description": "Leia a história em nosso leitor digital interativo, com páginas que simulam a experiência de um livro de verdade.",
       "pricing_type": "fixed",
-      "price": 39.90,
+      "price": 59.90,
       "price_prefix": "",
       "price_suffix": "",
       "active": true,
@@ -93,13 +93,12 @@
       "short_name": "Digital + Narração",
       "description": "Acompanhe as páginas do livro em nosso leitor digital enquanto a história é narrada diretamente pelo player.",
       "pricing_type": "fixed",
-      "price": 59.90,
+      "price": 79.90,
       "price_prefix": "",
       "price_suffix": "",
       "active": true,
       "featured": true,
       "sort_order": 2,
-      "badge": "Mais escolhido",
 
       "delivery": {
         "type": "online",
@@ -172,14 +171,14 @@
       "active": true,
       "featured": false,
       "sort_order": 3,
-      "badge": null,
+      "badge": "Mais escolhido",
 
       "delivery": {
         "type": "shipping",
-        "reader_access": false,
-        "interactive_book": false,
-        "page_turning": false,
-        "audio_narration": false,
+        "reader_access": true,
+        "interactive_book": true,
+        "page_turning": true,
+        "audio_narration": true,
         "physical_book": true
       },
 
@@ -217,12 +216,12 @@
         {
           "id": "INTERACTIVE_READER",
           "label": "Livro digital interativo",
-          "included": false
+          "included": true
         },
         {
           "id": "AUDIO_NARRATION",
           "label": "Narração integrada ao player",
-          "included": false
+          "included": true
         }
       ],
 

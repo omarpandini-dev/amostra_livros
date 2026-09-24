@@ -1,4 +1,4 @@
-import { Sparkles, Volume2 } from 'lucide-react';
+import { Volume2 } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { EndAdventure } from '@/components/EndAdventure';
@@ -51,7 +51,16 @@ export function Reader() {
   }, [fullscreen.isFullscreen]);
 
   useEffect(() => () => { if (hideTimer.current) window.clearTimeout(hideTimer.current); }, []);
-  const next = useCallback(() => readerRef.current?.next(), []);
+  const next = useCallback(() => {
+    if (content) {
+      const finalSpreadStart = window.innerWidth < 800 ? content.pages!.length - 1 : content.pages!.length - 2;
+      if (pageIndex >= finalSpreadStart) {
+        setShowEndPanel(true);
+        return;
+      }
+    }
+    readerRef.current?.next();
+  }, [content, pageIndex]);
   const previous = useCallback(() => readerRef.current?.previous(), []);
   const restart = useCallback(() => { if (content) clearProgress(contentKey(content)); setShowEndPanel(false); setPageIndex(0); readerRef.current?.goTo(0); }, [content]);
 
@@ -73,13 +82,14 @@ export function Reader() {
   if (!content) return <ReaderLoading />;
   if (!content.pages?.length) return <main className="reader-error"><span>✦</span><h1>As páginas ainda não chegaram</h1><p>Encontramos a história, mas ela ainda não tem páginas para ler.</p><button onClick={() => navigate('/')}>Voltar para a biblioteca</button></main>;
 
+  const isAtEnd = window.innerWidth < 800 ? pageIndex >= content.pages.length - 1 : pageIndex >= content.pages.length - 2;
+
   return <div ref={shellRef} className={`reader-shell ${fullscreen.isFullscreen ? 'is-fullscreen' : ''} ${controlsVisible ? 'controls-visible' : 'controls-hidden'}`} onPointerMove={showControls} onPointerDown={showControls}>
     <div className="reader-ambience" aria-hidden="true" />
     <header className="reader-header"><button onClick={() => navigate('/')} aria-label="Voltar para a biblioteca">←</button><div><span>{content.type === 'book' ? 'Amostra de livro personalizado' : 'Amostra de quadrinho personalizado'}</span><h1>{content.title}</h1></div></header>
     {narration.needsInteraction && !narration.muted && <button className="enable-narration" onClick={narration.activate}><Volume2 />Ativar narração</button>}
     <PageFlipReader ref={readerRef} pages={content.pages} initialPage={pageIndex} onPageChange={(index) => { setPageIndex(index); setShowEndPanel(false); showControls(); }} onInteraction={() => { showControls(); if (narration.needsInteraction) void narration.activate(); }} />
-    {pageIndex === content.pages.length - 1 && !showEndPanel && <button className="end-adventure-trigger" onClick={() => setShowEndPanel(true)}><Sparkles />Fim da aventura</button>}
-    {showEndPanel && <EndAdventure onRestart={restart} onPrevious={previous} onClose={() => setShowEndPanel(false)} />}
-    <ReaderControls page={pageIndex} total={content.pages.length} muted={narration.muted} fullscreen={fullscreen.isFullscreen} fullscreenSupported={fullscreen.supported} onPrevious={previous} onNext={next} onToggleMuted={narration.toggleMuted} onToggleFullscreen={() => void fullscreen.toggle()} onRestart={restart} />
+    {showEndPanel && <EndAdventure onRestart={restart} onPrevious={() => { setShowEndPanel(false); previous(); }} onClose={() => setShowEndPanel(false)} />}
+    <ReaderControls page={pageIndex} total={content.pages.length} isAtEnd={isAtEnd} muted={narration.muted} fullscreen={fullscreen.isFullscreen} fullscreenSupported={fullscreen.supported} onPrevious={previous} onNext={next} onToggleMuted={narration.toggleMuted} onToggleFullscreen={() => void fullscreen.toggle()} onRestart={restart} />
   </div>;
 }
